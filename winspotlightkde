@@ -1,0 +1,89 @@
+#!/bin/bash
+
+# Set parameters for the downloading and setting of wallpapers
+
+
+# Horizontal resolution of the image to be downloaded
+hRes=1920
+
+# Vertical resolution of the image to be downloaded
+vRes=1080
+
+# The locale for the images that will be downloaded
+locale=en-US
+
+# The country for the images that will be downloaded
+country=us
+
+# Path that downloaded Spotlight images will be saved to
+imgPath=$HOME/.winspotlightkde/
+
+# Images in the specified directory above will be deleted after this number of days
+deleteImagesAfterNumDays=3
+
+# If set to yes, the desktop background will be updated when new Spotlight images are downloaded
+setDesktop=yes
+
+# If set to yes, the lockscreen background will be updated when new Spotlight images are downloaded
+setLockscreen=yes
+
+# If set to yes, the display manager background will be updated when new Spotlight images are downloaded
+setDM=yes
+
+
+
+
+# Check that the directory specified exists, and if not, make it
+mkdir -p ${imgPath}
+
+#Get the current date and time
+dateTime=$(env TZ=UTC date +'%Y-%m-%dT%H:%M:%SZ')
+
+# Use cURL to make a request to the Spotlight API and get the request JSON
+rqJSON=$(curl -s -G "https://arc.msn.com/v3/Delivery/Cache" \
+        -d pid=209567 \
+        -d fmt=json \
+        -d rafb=0 \
+        -d ua=WindowsShellClient%2F0 \
+        -d disphorzres=$hRes \
+        -d dispvertres=$vRes \
+        -d lo=80217 \
+        -d pl=$locale \
+        -d lc=$locale \
+        -d ctry=$country \
+        -d time=$dateTime)
+
+# Pipe the result from curl into jq (JSON parser), and get the image URL from that
+imageURL=$(echo $rqJSON | jq -r '.batchrsp.items[0].item' | jq -r '.ad.image_fullscreen_001_landscape.u')
+
+#Specify the image name
+imgName=${imgPath}/${dateTime}.jpeg
+
+# Download the image
+curl -s $imageURL -o ${imgName}
+
+# Set the wallpaper for the desktop
+if [ "$setDesktop" == "yes" ]; then
+        qdbus org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript "var allDesktops = desktops();
+        print (allDesktops);for (i=0;i<allDesktops.length;i++) {d = allDesktops[i];d.wallpaperPlugin = 'org.kde.image';
+        d.currentConfigGroup = Array('Wallpaper', 'org.kde.image', 'General');d.writeConfig('Image', 'file://${imgName}')}"
+fi
+
+# Set the wallpaper for the lockscreen
+if [ "$setLockscreen" == "yes" ]; then
+        kwriteconfig5 --file $HOME/.config/kscreenlockerrc --group Greeter --group Wallpaper --group org.kde.image --group General --key Image "file://${imgName}"
+fi
+
+# Set the wallpaper for the display manager (log-in screen)
+if [ "$setDM" == "yes" ]; then
+        cp ${imgName} /usr/share/sddm/themes/winspotlightlinux/sddm.jpeg
+fi
+
+# Delete any images that are old enough, as specified by the "deleteImagesAfterNumDays" variable
+if [ ${deleteImagesAfterNumDays} -gt 0 ]; then
+        for name in ${imgPath}/*; do
+                if [ $(( ($(date +%s) - $(stat -c %Y "${name}")) / 60 / 60 / 24 )) -ge ${deleteImagesAfterNumDays} ]; then
+                        rm ${name}
+                fi
+        done
+fi
