@@ -16,7 +16,7 @@ Thank you to [ORelio](https://github.com/ORelio/Spotlight-Downloader) on GitHub 
 2. Open a terminal and `cd` into the repo folder that you downloaded.
 3. Make the `winspotlightkde` script executable:
     ```
-    chmod o+w winspotlightkde
+    chmod o+x winspotlightkde
     ```
 4. Copy the `winspotlightkde` script to the `opt` folder on your system:
     ```
