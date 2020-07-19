@@ -69,7 +69,7 @@ The horizontal resolution of the image that will be downloaded. Normally, this s
 The vertical resolution of the image that will be downloaded. Same deal as above.
 
 ### **locale**
-An option sent to the Spotlight API. Since the Spotlight API isn't at all documented, I'm not sure exactly what this does, but presumably it affects what kind of images the API sends to you.
+An option sent to the Spotlight API. Since the Spotlight API isn't well documented, I'm not sure exactly what this does, but presumably it affects what kind of images the API sends to you.
 
 ### **country**
 Same as above.
