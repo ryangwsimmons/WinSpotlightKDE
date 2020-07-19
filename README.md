@@ -3,6 +3,8 @@ A utility for automatically downloading Windows Spotlight images, and setting th
 
 This project is specifically for Linux systems using systemd, running KDE and using SDDM as the display manager, such as Kubuntu and Manjaro KDE. However, with a little work, it could easily be modified to work with other desktop environments or display managers, or with an alternative to systemd timers such as cron.
 
+Thank you to [ORelio](https://github.com/ORelio/Spotlight-Downloader) on GitHub for their documentation on how the Spotlight API works. Without it, this project would have been significantly harder to finish.
+
 ## Dependencies
 - Bash (may work with other shells, but this has not been tested)
 - [cURL](https://curl.haxx.se/) (for sending an http request to the Spotlight API)
