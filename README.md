@@ -12,23 +12,23 @@ This project is specific to systems using systemd, running KDE and using SDDM as
 1. Clone or download this repo.
 2. Open a terminal and `cd` into the repo folder that you downloaded.
 3. Make the `winspotlightkde` script executable:
-    ```bash
+    ```
     chmod o+w winspotlightkde
     ```
 4. Copy the `winspotlightkde` script to the `opt` folder on your system:
-    ```bash
+    ```
     sudo cp winspotlightkde /opt/
     ```
 5. Copy the WinSpotlightKDE `.service` and `.timer` files to the systemd user unit directory:
-    ```bash
+    ```
     sudo cp winspotlightkde.service winspotlightkde.timer /usr/lib/systemd/user/
     ```
 6. Reload the systemd user daemon:
-    ```bash
+    ```
     systemctl --user daemon-reload
     ```
 7. Enable and start the WinSpotlightKDE systemd timer
-    ```bash
+    ```
     systemctl --user enable winspotlightkde.timer
     systemctl --user start winspotlightkde.timer
     ```
@@ -39,15 +39,15 @@ If you're using SDDM, and you want WinSpotlightKDE to change your SDDM backgroun
 1. Determine what SDDM theme you're currently using. This can be accomplished by going into KDE settings -> Workspace -> Startup and Shutdown -> Login Screen (SDDM) and seeing what theme is highlighted.
 2. Open up a terminal, and `cd` to `/usr/share/sddm/themes/`
 3. Create a copy of the theme you're currently using, called "winspotlightkde":
-    ```bash
+    ```
     sudo cp -r your-theme/ winspotlightkde
     ```
 4. Change the permissions of the newly-created theme folder, to allow non-root users to add new files, and replace new files that are added after this point:
-    ```bash
+    ```
     sudo chmod o+w winspotlightkde
     ```
 5. `cd` into the `winspotlightkde` folder, and open up `metadata.desktop` in your favourite text editor:
-    ```bash
+    ```
     sudo nano metadata.desktop
     ```
 6. Change the line that starts with `name=` to `name=WinSpotlightKDE`. You can repeat this step on the other lines as well, but this isn't necessary.
