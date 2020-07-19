@@ -1,0 +1,10 @@
+[Unit]
+Description=WinSpotlightKDE
+
+[Timer]
+Unit=winspotlightkde.service
+OnCalendar=*-*-* 00:00:00
+Persistent=true
+
+[Install]
+WantedBy=graphical.target

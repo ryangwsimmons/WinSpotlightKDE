@@ -76,12 +76,12 @@ fi
 
 # Set the wallpaper for the display manager (log-in screen)
 if [ "$setDM" == "yes" ]; then
-        cp ${imgName} /usr/share/sddm/themes/winspotlightlinux/sddm.jpeg
+        cp ${imgName} /usr/share/sddm/themes/winspotlightkde/sddm.jpeg
 fi
 
 # Delete any images that are old enough, as specified by the "deleteImagesAfterNumDays" variable
 if [ ${deleteImagesAfterNumDays} -gt 0 ]; then
-        for name in ${imgPath}/*; do
+        for name in ${imgPath}/*.jpeg; do
                 if [ $(( ($(date +%s) - $(stat -c %Y "${name}")) / 60 / 60 / 24 )) -ge ${deleteImagesAfterNumDays} ]; then
                         rm ${name}
                 fi
