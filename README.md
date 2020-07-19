@@ -6,7 +6,7 @@ This project is specific to systems using systemd, running KDE and using SDDM as
 ## Dependencies
 - Bash (may work with other shells, but this has not been tested)
 - [cURL](https://curl.haxx.se/) (for sending an http request to the Spotlight API)
-- [Jq](https://stedolan.github.io/jq/) (for parsing JSON sent by the API)
+- [Jq](https://stedolan.github.io/jq/) (for parsing JSON returned by the API)
 
 ## Installation
 1. Clone or download this repo.
