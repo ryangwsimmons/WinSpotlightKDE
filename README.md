@@ -88,3 +88,11 @@ Same as above, but for the lock screen.
 
 ### **setDM**
 Same as above, but for the display manager (log-in screen).
+
+## Updates
+To update the utility, replace all of the files that have changed since the last version (or just replace them all, much easier) and run the following commands:
+
+```
+systemctl --user daemon-reload
+systemctl --user reenable winspotlightkde.timer
+```
