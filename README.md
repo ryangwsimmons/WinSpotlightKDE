@@ -12,6 +12,22 @@ This project is specifically for Linux systems using systemd, running KDE and us
 
 ## Installation
 
+### Using the Debian Package (Recommended)
+
+If you're on Debian, Ubuntu, or any of their derivatives, you can use the provided debian package to install the utility:
+
+1. Download the latest `.deb` file from the [releases](https://github.com/ryangwsimmons/WinSpotlightKDE/releases) page.
+2. Install the `.deb` package using your utility of choice (double-clicking the download works most of the time, otherwise google it)
+3. Run the following commands in a terminal window:
+   
+   ```shell
+   systemctl --user daemon-reload
+   systemctl --user enable winspotlightkde.timer
+   systemctl --user start winspotlightkde.timer
+   ```
+
+### Installing Manually
+
 1. Clone or download this repo.
 
 2. Open a terminal and `cd` into the repo folder that you downloaded.
