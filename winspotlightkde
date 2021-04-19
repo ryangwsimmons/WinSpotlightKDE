@@ -2,18 +2,8 @@
 
 # Set parameters for the downloading and setting of wallpapers
 
-
-# Horizontal resolution of the image to be downloaded
-hRes=1920
-
-# Vertical resolution of the image to be downloaded
-vRes=1080
-
 # The locale for the images that will be downloaded
 locale=en-US
-
-# The country for the images that will be downloaded
-country=us
 
 # Path that downloaded Spotlight images will be saved to
 imgPath=$HOME/.winspotlightkde/
@@ -21,14 +11,14 @@ imgPath=$HOME/.winspotlightkde/
 # Images in the specified directory above will be deleted after this number of days
 deleteImagesAfterNumDays=3
 
-# If set to yes, the desktop background will be updated when new Spotlight images are downloaded
+# If set to yes, the desktop background will be updated when new Bing images are downloaded
 setDesktop=yes
 
-# If set to yes, the lockscreen background will be updated when new Spotlight images are downloaded
+# If set to yes, the lockscreen background will be updated when new Bing images are downloaded
 setLockscreen=yes
 
-# If set to yes, the display manager background will be updated when new Spotlight images are downloaded
-setDM=yes
+# If set to yes, the display manager background will be updated when new Bing images are downloaded
+setDM=no
 
 
 
@@ -39,22 +29,15 @@ mkdir -p ${imgPath}
 #Get the current date and time
 dateTime=$(env TZ=UTC date +'%Y-%m-%dT%H:%M:%SZ')
 
-# Use cURL to make a request to the Spotlight API and get the request JSON
-rqJSON=$(curl -s -G "https://arc.msn.com/v3/Delivery/Cache" \
-        -d pid=209567 \
-        -d fmt=json \
-        -d rafb=0 \
-        -d ua=WindowsShellClient%2F0 \
-        -d disphorzres=$hRes \
-        -d dispvertres=$vRes \
-        -d lo=80217 \
-        -d pl=$locale \
-        -d lc=$locale \
-        -d ctry=$country \
-        -d time=$dateTime)
+# Use cURL to make a request to the Bing API and get the request JSON
+rqJSON=$(curl -s -G "http://www.bing.com/HPImageArchive.aspx" \
+        -d format=js \
+        -d idx=0 \
+        -d n=1 \
+        -d mkt=$locale)
 
 # Pipe the result from curl into jq (JSON parser), and get the image URL from that
-imageURL=$(echo $rqJSON | jq -r '.batchrsp.items[0].item' | jq -r '.ad.image_fullscreen_001_landscape.u')
+imageURL=https://bing.com$(echo $rqJSON | jq -r '.images[0].url')
 
 #Specify the image name
 imgName=${imgPath}/${dateTime}.jpeg
